@@ -1,8 +1,34 @@
 import React, { useState } from 'react';
+import { View, Platform } from 'react-native';
+import Constants from 'expo-constants';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
+
 import Directory from './DirectoryComponent';
-import { CAMPSITES } from '../shared/campsites';
 import CampsiteInfo from './CampsiteInfoComponent';
-import { View } from 'react-native';
+
+import { CAMPSITES } from '../shared/campsites';
+
+const DirectoryNavigator = createStackNavigator(
+    {
+        Directory: { screen: Directory },
+        CampsiteInfo: { screen: CampsiteInfo }
+    },
+    {
+        initialRouteName: 'Directory',
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            }
+        }
+    }
+)
+
+const AppNavigator = createAppContainer(DirectoryNavigator);
 
 const Main = () => {
     const [campsites, updateCampsites] = useState({CAMPSITES});
@@ -12,15 +38,20 @@ const Main = () => {
         updateSelectedCampsite(campsiteId)
     }
     return (
-        <View style={{flex: 1}}>
-            <Directory 
+        <View 
+            style={{
+                flex: 1,
+                paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight
+            }}>
+                <AppNavigator />
+            {/* <Directory 
                 campsites={campsites.CAMPSITES}
                 onPress={campsiteId => onCampsiteSelect(campsiteId)}
             />
             <CampsiteInfo
                 campsite={campsites.CAMPSITES.filter(
                     campsite => campsite.id === selectedCampsite)[0]}
-            />
+            /> */}
         </View>
     )
 }
