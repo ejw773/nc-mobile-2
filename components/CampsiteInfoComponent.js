@@ -21,9 +21,9 @@ const RenderCampsite = ({campsite}) => {
     return <View />
 }
 
-const CampsiteInfo = (props) => {
+const CampsiteInfo = ({ navigation }) => {
     const [campsites, updateCampsites] = useState({CAMPSITES});
-    const campsiteId = props.navigation.getParam('campsiteId');
+    const campsiteId = navigation.getParam('campsiteId');
     const campsite = campsites.CAMPSITES.filter(campsite => campsite.id === campsiteId)[0];
     return (
         <RenderCampsite campsite={campsite} />
