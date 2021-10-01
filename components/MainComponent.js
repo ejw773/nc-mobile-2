@@ -49,8 +49,8 @@ const HomeNavigator = createStackNavigator(
 
 const MainNavigator = createDrawerNavigator(
     {
-        Directory: { screen: DirectoryNavigator },
-        Home: { screen: HomeNavigator }
+        Home: { screen: HomeNavigator },
+        Directory: { screen: DirectoryNavigator }
     },
     {
         drawerBackgroundColor: '#CEC8FF'
