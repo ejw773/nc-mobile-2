@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { CAMPSITES } from '../shared/campsites';
 import Image from './images/react-lake.jpg';
 
 const Directory = (props) => {
-    const [campsites, setCampsites] = useState({CAMPSITES})
-    console.log(campsites);
+    const [campsites, setCampsites] = useState(CAMPSITES)
 
     const { navigate } = props.navigation;
 
@@ -21,9 +20,8 @@ const Directory = (props) => {
         )
     }
     return (
-        // <View></View>
         <FlatList 
-            data={campsites.CAMPSITES}
+            data={campsites}
             renderItem={renderDirectoryItem}
             keyExtractor={item => item.id.toString()}
         />

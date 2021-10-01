@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Platform } from 'react-native';
-import Constants from 'expo-constants';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createAppContainer } from 'react-navigation';
 
 import Directory from './DirectoryComponent';
 import CampsiteInfo from './CampsiteInfoComponent';
+import Home from './HomeComponent';
 
-import { CAMPSITES } from '../shared/campsites';
+import Constants from 'expo-constants';
+
+import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 
 const DirectoryNavigator = createStackNavigator(
     {
@@ -28,15 +30,37 @@ const DirectoryNavigator = createStackNavigator(
     }
 )
 
-const AppNavigator = createAppContainer(DirectoryNavigator);
+const HomeNavigator = createStackNavigator(
+    {
+        Home: { screen: Home }
+    },
+    {
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            }
+        }
+    }
+)
+
+const MainNavigator = createDrawerNavigator(
+    {
+        Directory: { screen: DirectoryNavigator },
+        Home: { screen: HomeNavigator }
+    },
+    {
+        drawerBackgroundColor: '#CEC8FF'
+    }
+)
+
+
+const AppNavigator = createAppContainer(MainNavigator);
 
 const Main = () => {
-    const [campsites, updateCampsites] = useState({CAMPSITES});
-    const [selectedCampsite, updateSelectedCampsite] = useState(null);
-    const onCampsiteSelect = (campsiteId) => {
-        console.log(campsiteId);
-        updateSelectedCampsite(campsiteId)
-    }
     return (
         <View 
             style={{
@@ -44,14 +68,6 @@ const Main = () => {
                 paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight
             }}>
                 <AppNavigator />
-            {/* <Directory 
-                campsites={campsites.CAMPSITES}
-                onPress={campsiteId => onCampsiteSelect(campsiteId)}
-            />
-            <CampsiteInfo
-                campsite={campsites.CAMPSITES.filter(
-                    campsite => campsite.id === selectedCampsite)[0]}
-            /> */}
         </View>
     )
 }
